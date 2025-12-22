@@ -118,6 +118,11 @@ $routes->group('admin', ['filter' => 'auth_admin'], function ($routes) {
     $routes->get('transaksi/cetak-pdf', 'Admin\TransaksiController::cetakPDF');
 });
 
+// Chatbot Routes
+$routes->group('api/chat', function ($routes) {
+    $routes->post('send', 'ChatbotController::send');
+    $routes->get('history', 'ChatbotController::loadHistory');
+});
 
 $routes->get('auth-google', 'AuthGoogle::redirect');
 $routes->get('auth/google-callback', 'AuthGoogle::callback');

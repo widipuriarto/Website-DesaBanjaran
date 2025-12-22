@@ -1,0 +1,212 @@
+/* --- Chatbot Floating Button --- */
+.chatbot-toggler {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #819a91;
+  transition: all 0.2s ease;
+  z-index: 9999;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chatbot-toggler:hover {
+  transform: scale(1.1);
+}
+
+.chatbot-toggler span {
+  color: #fff;
+  position: absolute;
+}
+
+.chatbot-toggler span:last-child,
+body.show-chatbot .chatbot-toggler span:first-child {
+  opacity: 0;
+}
+
+body.show-chatbot .chatbot-toggler span:last-child {
+  opacity: 1;
+}
+
+/* --- Chatbot Container (Popup) --- */
+.chatbot {
+  position: fixed;
+  right: 25px;
+  bottom: 90px;
+  width: 400px; /* Lebar default */
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: bottom right;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+  transition: all 0.1s ease;
+  z-index: 9998;
+}
+
+body.show-chatbot .chatbot {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* Header Chat */
+.chatbot header {
+  padding: 16px 0;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  background: #819a91;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chatbot header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Chatbox Body (List Pesan) */
+.chatbot .chatbox {
+  overflow-y: auto;
+  height: 400px; /* Tinggi area chat */
+  padding: 15px 20px 70px;
+  background: #fbfbfb;
+}
+
+/* Custom Scrollbar */
+.chatbox::-webkit-scrollbar {
+  width: 6px;
+}
+.chatbox::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+/* Pesan Chat Bubble */
+.chatbox .chat {
+  display: flex;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.chatbox .outgoing {
+  justify-content: flex-end;
+}
+
+.chatbox .incoming img {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  border: #819a91 2px solid;
+  border-radius: 20px;
+  margin-right: 10px;
+  align-self: flex-end; /* Ikon di bawah */
+}
+
+.chatbox .chat p {
+  white-space: pre-wrap; /* Agar enter terbaca */
+  padding: 12px 16px;
+  border-radius: 20px 20px 0 20px; /* Bubble User */
+  max-width: 75%;
+  color: #fff;
+  font-size: 0.7rem;
+  background: #819a91;
+  margin: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox .incoming p {
+  border-radius: 20px 20px 20px 0; /* Bubble Bot */
+  color: #000;
+  background: #fff;
+}
+
+/* Fix Warna Bold */
+.chatbox p b {
+  color: #000;
+  font-weight: 700;
+}
+
+/* Input Area */
+.chatbot .chat-input {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 3px 20px;
+  border-top: 1px solid #ddd;
+  align-items: center; /* Center vertical */
+}
+
+.chat-input textarea {
+  height: 50px;
+  width: 100%;
+  color: #000;
+  border: none;
+  outline: none;
+  resize: none;
+  max-height: 180px;
+  padding: 15px 0 15px 0; /* Adjust padding */
+  font-size: 0.8rem;
+  font-family: inherit;
+}
+
+.chat-input span {
+  color: #fff; /* Icon putih */
+  background: #819a91; /* Background hijau */
+  cursor: pointer;
+  width: 40px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Lingkaran */
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+
+  /* State Disabled (Default) */
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* State Enabled (Saat ada ketikan) */
+.chat-input textarea:valid ~ span {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive Mobile */
+@media (max-width: 490px) {
+  .chatbot-toggler {
+    right: 20px;
+    bottom: 20px;
+  }
+  .chatbot {
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
+  .chatbot .chatbox {
+    height: 90%;
+    padding: 25px 15px 100px;
+  }
+  .chatbot .chat-input {
+    padding: 5px 15px;
+  }
+}
