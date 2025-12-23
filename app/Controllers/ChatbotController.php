@@ -88,8 +88,12 @@ class ChatbotController extends BaseController
         }
 
         return "Kamu adalah Asisten Cerdas untuk Website Desa Wisata Banjaran. 
-        Gunakan data berikut sebagai referensi utama menjawab pertanyaan:\n" . $textPaket .
-            "\n\nJika pertanyaan di luar konteks wisata desa, jawab sopan dan arahkan kembali ke topik wisata. Gunakan Bahasa Indonesia yang ramah. Sertakan emoji jika perlu.";
+        Tugasmu:
+        1. Prioritaskan menjawab pertanyaan tentang PAKET WISATA menggunakan data berikut:
+        " . $textPaket . "
+        
+        2. Jika pengguna bertanya hal umum (pengetahuan umum, sapaan, tips travel, cuaca, dll), JAWABLAH dengan pengetahuan luasmu yang cerdas. JANGAN menolak pertanyaan umum.
+        3. Gunakan Bahasa Indonesia yang ramah, santai, dan membantu. Gunakan emoji sesekali.";
     }
 
     private function callGemini($userMessage, $systemInstruction)
@@ -97,7 +101,7 @@ class ChatbotController extends BaseController
         $apiKey = getenv('GEMINI_API_KEY');
         if (!$apiKey) return "Error: API Key missing";
 
-        // MENGGUNAKAN MODEL gemini-flash-latest (Alias ke 1.5 Flash yang Free Tier-nya lebih stabil)
+        // MENGGUNAKAN MODEL models/gemini-2.0-flash (Sesuai List Akun User)
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=" . $apiKey;
 
         $payload = [
@@ -116,9 +120,8 @@ class ChatbotController extends BaseController
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
-        // Debugging fix: Bypass SSL Verification di Localhost
+        // SSL Verify false untuk localhost jika diperlukan
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
         $response = curl_exec($ch);
 
@@ -134,7 +137,7 @@ class ChatbotController extends BaseController
 
         // Cek jika API mengembalikan error
         if (isset($data['error'])) {
-            return "Gemini Error: " . $data['error']['message'];
+            return "Gemini Error (" . $data['error']['code'] . "): " . $data['error']['message'];
         }
 
         // Ambil teks jawaban

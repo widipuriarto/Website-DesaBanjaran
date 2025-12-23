@@ -26,6 +26,7 @@
 
     <div class="chatbot">
         <header>
+            <img src="<?= base_url('icon.png') ?>" alt="Icon" class="header-icon">
             <h2>Asisten Desa</h2>
         </header>
 
